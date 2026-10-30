@@ -44,6 +44,22 @@ export default function PuppyDetailContent({
     setActiveIndex((prev) => (prev - 1 + mediaList.length) % mediaList.length);
   };
 
+  // Touch swipe support for photo modal
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const diff = e.changedTouches[0].clientX - touchStart;
+    if (diff > 45) {
+      prevPhoto();
+    } else if (diff < -45) {
+      nextPhoto();
+    }
+    setTouchStart(null);
+  };
+
   // Keyboard navigation for gallery & modal
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -265,7 +281,9 @@ export default function PuppyDetailContent({
                   <dialog
                     open
                     aria-label={`${puppy.name} photos`}
-                    className="fixed inset-0 z-50 m-0 flex h-dvh max-h-none w-screen max-w-none flex-col items-center justify-center bg-cocoa/95 p-4 text-milk backdrop:bg-cocoa/70"
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
+                    className="fixed inset-0 z-50 m-0 flex h-dvh max-h-none w-screen max-w-none flex-col items-center justify-center bg-cocoa p-4 text-milk backdrop:bg-cocoa"
                   >
                     <button
                       type="button"
@@ -290,7 +308,7 @@ export default function PuppyDetailContent({
                             e.stopPropagation();
                             prevPhoto();
                           }}
-                          className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 grid size-12 md:size-14 place-items-center rounded-full border-2 border-milk/40 bg-milk/20 text-milk hover:bg-milk hover:text-cocoa text-3xl font-bold transition shadow-2xl"
+                          className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 hidden md:grid size-12 md:size-14 place-items-center rounded-full border-2 border-milk/40 bg-milk/20 text-milk hover:bg-milk hover:text-cocoa text-3xl font-bold transition shadow-2xl"
                           aria-label="Previous photo"
                         >
                           ‹
@@ -301,7 +319,7 @@ export default function PuppyDetailContent({
                             e.stopPropagation();
                             nextPhoto();
                           }}
-                          className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 grid size-12 md:size-14 place-items-center rounded-full border-2 border-milk/40 bg-milk/20 text-milk hover:bg-milk hover:text-cocoa text-3xl font-bold transition shadow-2xl"
+                          className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 hidden md:grid size-12 md:size-14 place-items-center rounded-full border-2 border-milk/40 bg-milk/20 text-milk hover:bg-milk hover:text-cocoa text-3xl font-bold transition shadow-2xl"
                           aria-label="Next photo"
                         >
                           ›
@@ -310,6 +328,7 @@ export default function PuppyDetailContent({
                           <button
                             type="button"
                             onClick={prevPhoto}
+                            aria-label="Previous photo"
                             className="grid size-12 place-items-center rounded-full border-2 border-milk bg-cocoa text-xl font-bold text-milk hover:bg-milk hover:text-cocoa"
                           >
                             ‹
@@ -320,6 +339,7 @@ export default function PuppyDetailContent({
                           <button
                             type="button"
                             onClick={nextPhoto}
+                            aria-label="Next photo"
                             className="grid size-12 place-items-center rounded-full border-2 border-milk bg-cocoa text-xl font-bold text-milk hover:bg-milk hover:text-cocoa"
                           >
                             ›
