@@ -1,0 +1,44 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+/.next/
+/out/
+build/
+dist/
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Debug and test artifacts
+/test-results/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment files
+.env*.local
+.env
+.env.development
+.env.production
+
+# Vercel
+.vercel
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Root scratch / dump files
+/*.png
+/*.txt
+
+# Local development scrapes & reference assets (not needed in production)
+/reference/
+/scripts/
+/Vedio/
+/puppy.instabizweb.com*
