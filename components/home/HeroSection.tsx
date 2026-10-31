@@ -133,6 +133,9 @@ export function HeroSection() {
                     <img
                       src={pup.cover.url}
                       alt={pup.cover.alt || `${pup.name}, ${pup.breed}`}
+                      loading={i < 3 ? 'eager' : 'lazy'}
+                      fetchPriority={i < 3 ? 'high' : 'auto'}
+                      decoding="async"
                       style={{
                         position: 'absolute',
                         height: '100%',

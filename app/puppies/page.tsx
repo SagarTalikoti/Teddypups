@@ -273,6 +273,7 @@ export default function PuppiesPage() {
                           <Image
                             alt={pup.cover.alt}
                             fill
+                            priority={idx < 4}
                             sizes="(min-width: 1536px) 17rem, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
                             src={pup.cover.url}
                             style={{
